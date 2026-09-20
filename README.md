@@ -26,7 +26,8 @@ every structural decision, what was rejected, and when each choice would stop be
 | Gradle | 9.4.1 via the wrapper — do not install it separately |
 
 No API key, no account and no signing config for debug builds. The app needs an internet
-connection on first launch to fill the cache; after that it opens offline.
+connection on first launch to fill the cache; after that it opens offline, showing the
+cached list while the failed refresh is absorbed rather than blanking the screen.
 
 The only local setup is telling Gradle where your Android SDK is, since
 `local.properties` is not in version control. Either export `ANDROID_HOME`:
@@ -52,11 +53,15 @@ From a clean checkout, with no Android Studio involved:
 ```bash
 # 0. Point Gradle at your SDK (see above) if you have not already.
 export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
 
 # 1. Create and start an emulator (skip if you already have one running).
-#    Any API 24+ image works; this uses API 36.
-sdkmanager "system-images;android-36;google_apis;arm64-v8a"     # or x86_64 on Intel
-avdmanager create avd -n gamenews -k "system-images;android-36;google_apis;arm64-v8a"
+#    Any API 24+ image works; this uses API 36 on Apple silicon — swap arm64-v8a for
+#    x86_64 on an Intel host. `yes |` accepts the SDK licence non-interactively, and
+#    `echo "no" |` declines avdmanager's custom-hardware-profile prompt, which it
+#    otherwise blocks on.
+yes | sdkmanager "system-images;android-36;google_apis;arm64-v8a"
+echo "no" | avdmanager create avd -n gamenews -k "system-images;android-36;google_apis;arm64-v8a"
 emulator -avd gamenews &
 
 # 2. Wait until the device reports as ready.
@@ -69,7 +74,7 @@ adb shell am start -n com.example.gamenews/.MainActivity
 
 `sdkmanager`, `avdmanager`, `emulator` and `adb` all ship with the Android SDK, under
 `$ANDROID_HOME/cmdline-tools/latest/bin`, `$ANDROID_HOME/emulator` and
-`$ANDROID_HOME/platform-tools`.
+`$ANDROID_HOME/platform-tools` respectively — which is what step 0 puts on `PATH`.
 
 **In Android Studio:** open the project root, let Gradle sync, pick a device and run the
 `app` configuration. Nothing else to configure.
@@ -97,7 +102,7 @@ of Room.
 ./gradlew testDebugUnitTest      # 23 JVM unit tests
 ./gradlew connectedDebugAndroidTest   # 7 instrumented tests (needs a running emulator)
 ./gradlew detekt                 # static analysis; a finding fails the build
-./gradlew check                  # detekt + unit tests
+./gradlew check                  # detekt, Android lint and the unit tests
 ```
 
 ```
