@@ -21,7 +21,6 @@ every structural decision, what was rejected, and when each choice would stop be
 | Tool | Version |
 | --- | --- |
 | JDK | 21 (the Gradle daemon toolchain is pinned to 21) |
-| Android Studio | Narwhal or newer — anything that ships AGP 9.2 support |
 | Android SDK | Platform 36.1 (`compileSdk 36.1`, `targetSdk 36`, `minSdk 24`) |
 | Gradle | 9.4.1 via the wrapper — do not install it separately |
 
