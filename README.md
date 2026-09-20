@@ -25,15 +25,34 @@ every structural decision, what was rejected, and when each choice would stop be
 | Android SDK | Platform 36.1 (`compileSdk 36.1`, `targetSdk 36`, `minSdk 24`) |
 | Gradle | 9.4.1 via the wrapper — do not install it separately |
 
-No API key, no account, no `local.properties` entries beyond `sdk.dir`, and no signing
-config for debug builds. The app needs an internet connection on first launch to fill the
-cache; after that it opens offline.
+No API key, no account and no signing config for debug builds. The app needs an internet
+connection on first launch to fill the cache; after that it opens offline.
+
+The only local setup is telling Gradle where your Android SDK is, since
+`local.properties` is not in version control. Either export `ANDROID_HOME`:
+
+```bash
+export ANDROID_HOME="$HOME/Library/Android/sdk"   # macOS default
+```
+
+or create `local.properties` in the project root with a single line:
+
+```properties
+sdk.dir=/Users/you/Library/Android/sdk
+```
+
+Android Studio writes that file for you on first sync, so this step only applies when
+building from the command line. Without it the build stops with
+`SDK location not found`.
 
 ## Run it on an emulator
 
 From a clean checkout, with no Android Studio involved:
 
 ```bash
+# 0. Point Gradle at your SDK (see above) if you have not already.
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+
 # 1. Create and start an emulator (skip if you already have one running).
 #    Any API 24+ image works; this uses API 36.
 sdkmanager "system-images;android-36;google_apis;arm64-v8a"     # or x86_64 on Intel
