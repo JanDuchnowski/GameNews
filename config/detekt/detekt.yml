@@ -1,0 +1,43 @@
+# Deltas from detekt's defaults (buildUponDefaultConfig = true). Every entry below is a
+# deliberate choice for a Compose codebase, not a blanket relaxation.
+
+complexity:
+  LongMethod:
+    # Composables are long by nature: layout is data, not branching.
+    ignoreAnnotated: ['Composable']
+  LongParameterList:
+    # A stateless composable takes its whole state plus one lambda per event.
+    ignoreAnnotated: ['Composable']
+    ignoreDefaultParameters: true
+  TooManyFunctions:
+    ignoreAnnotatedFunctions: ['Composable']
+    thresholdInFiles: 20
+
+naming:
+  FunctionNaming:
+    # @Composable functions are PascalCase by convention.
+    ignoreAnnotated: ['Composable']
+
+style:
+  MagicNumber:
+    # dp/sp literals and Compose weights are the values themselves, not magic constants.
+    ignoreAnnotated: ['Composable']
+    ignoreNumbers: ['-1', '0', '1', '2']
+    # An ARGB literal is the colour, not a constant standing in for one; and a test
+    # fixture's numbers are the fixture.
+    excludes: ['**/ui/theme/**', '**/test/**', '**/androidTest/**']
+  UnusedPrivateMember:
+    active: true
+  MaxLineLength:
+    maxLineLength: 120
+    excludes: ['**/test/**', '**/androidTest/**']
+  ReturnCount:
+    max: 3
+
+exceptions:
+  TooGenericExceptionCaught:
+    # GameRepositoryImpl deliberately catches Throwable to convert it into a Result,
+    # after rethrowing CancellationException.
+    excludes: ['**/data/repository/**']
+  SwallowedException:
+    excludes: ['**/data/repository/**']

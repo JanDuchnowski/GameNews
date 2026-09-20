@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Game News</string>
+
+    <string name="retry">Retry</string>
+    <string name="back">Back</string>
+
+    <string name="error_network">No connection. Check your network and try again.</string>
+    <string name="error_unknown">Something went wrong. Please try again.</string>
+
+    <string name="list_empty">No games to show yet.</string>
+    <string name="detail_empty">This game is no longer available.</string>
+    <string name="detail_title">Game</string>
+
+    <string name="detail_about">About</string>
+    <string name="detail_screenshots">Screenshots</string>
+    <string name="detail_requirements">Minimum system requirements</string>
+
+    <string name="label_genre">Genre</string>
+    <string name="label_platform">Platform</string>
+    <string name="label_publisher">Publisher</string>
+    <string name="label_developer">Developer</string>
+    <string name="label_release_date">Released</string>
+    <string name="label_status">Status</string>
+
+    <string name="req_os">OS</string>
+    <string name="req_processor">Processor</string>
+    <string name="req_memory">Memory</string>
+    <string name="req_graphics">Graphics</string>
+    <string name="req_storage">Storage</string>
+</resources>
