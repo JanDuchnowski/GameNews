@@ -7,8 +7,8 @@ detail screen with description, screenshots and minimum system requirements.
 Kotlin · Jetpack Compose · Room · Retrofit · Hilt · Coroutines/Flow · 30 tests
 
 The database is the single source of truth, so the app opens straight into cached content
-and a failed refresh never blanks the screen. [ARCHITECTURE.md](ARCHITECTURE.md) explains
-every structural decision, what was rejected, and when each choice would stop being right.
+and a failed refresh never blanks the screen. [ARCHITECTURE.md](ARCHITECTURE.md) covers
+the layering and the reasoning behind it.
 
 ## Screenshots
 
@@ -136,5 +136,5 @@ com.example.gamenews
 
 Dependencies point inward: `ui` and `data` both depend on `domain`, and `domain` knows
 about neither. The UI never sees a DTO, an Entity, or a Retrofit or Room type.
-`ARCHITECTURE.md` covers why this is one module rather than six, why there are three
-representations of a game, and the rest of the reasoning.
+`ARCHITECTURE.md` covers why this is one module, why there are three representations of a
+game, and why there are no use cases yet.
